@@ -13,7 +13,11 @@ const BadgeSchema = new mongoose.Schema({
     dispo: {
         type: Number,
 
+    },
+    batiment : {
+        type : String
     }
+
 });
 
 

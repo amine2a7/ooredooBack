@@ -23,7 +23,8 @@ const UserSchema = new mongoose.Schema({
     },
     firstName: { type: String},
     lastName: { type: String},
-    role: { type: String}
+    role: { type: String},
+    batiment: { type: String}
 });
 UserSchema.plugin(AutoIncrement, { inc_field: 'identifiant' });
 
