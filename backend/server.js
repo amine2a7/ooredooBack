@@ -5,7 +5,14 @@ const app = express(); //
 const connectDB = require('./config/db.js');
 const colors = require('colors');
 
-const router = require('./routes/restRoutes.js')
+const router = require('./routes/restRoutes.js');
+const badge = require('./routes/Badge.js');
+const employee = require('./routes/Employee.js');
+const Visit = require('./routes/Visit.js');
+const Visitor = require('./routes/Visitor.js');
+
+
+
 
 
 const cors = require('cors');
@@ -28,7 +35,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/api',router)
+app.use('/api',router);
+app.use('/badge',badge);
+app.use('/employee',employee);
+app.use('/visit',Visit);
+app.use('/visitor',Visitor);
+
 
 app.use(express.json({ limit: '50mb' }));
 

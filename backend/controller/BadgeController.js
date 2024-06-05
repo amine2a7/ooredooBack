@@ -66,4 +66,119 @@ async function deleteBadge(req, res) {
     }
 }
 
-module.exports = {createBadge,getAllBadges, getBadgeById,updateBadge,deleteBadge};
+async function getUnavailableVisitorBadges(req, res) {
+    try {
+        const badges = await BadgeModel.find({ dispo: 0, type: 'visiteur' });
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching unavailable visitor badges:', error);
+        res.status(500).json({ error: 'Error fetching unavailable visitor badges' });
+    }
+}
+
+async function getUnavailableEmployeeBadges(req, res) {
+    try {
+        const badges = await BadgeModel.find({ dispo: 0, type: 'employee' });
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching unavailable visitor badges:', error);
+        res.status(500).json({ error: 'Error fetching unavailable visitor badges' });
+    }
+}
+
+async function getUnavailableVisitorBadgeszenith1(req, res) {
+    try {
+        const badges = await BadgeModel.find({ dispo: 0, type: 'visiteur',batiment: 'zenith1'});
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching unavailable visitor badges:', error);
+        res.status(500).json({ error: 'Error fetching unavailable visitor badges' });
+    }
+}
+
+async function getUnavailableEmployeeBadgeszenith1(req, res) {
+    try {
+        const badges = await BadgeModel.find({ dispo: 0, type: 'employee' ,batiment: 'zenith1'});
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching unavailable visitor badges:', error);
+        res.status(500).json({ error: 'Error fetching unavailable visitor badges' });
+    }
+}
+
+async function getUnavailableVisitorBadgeszenith2(req, res) {
+    try {
+        const badges = await BadgeModel.find({ dispo: 0, type: 'visiteur',batiment: 'zenith2'});
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching unavailable visitor badges:', error);
+        res.status(500).json({ error: 'Error fetching unavailable visitor badges' });
+    }
+}
+
+async function getUnavailableEmployeeBadgeszenith2(req, res) {
+    try {
+        const badges = await BadgeModel.find({ dispo: 0, type: 'employee' ,batiment: 'zenith2'});
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching unavailable visitor badges:', error);
+        res.status(500).json({ error: 'Error fetching unavailable visitor badges' });
+    }
+}
+
+async function getUnavailableVisitorBadgescharguia(req, res) {
+    try {
+        const badges = await BadgeModel.find({ dispo: 0, type: 'visiteur',batiment: 'charguia'});
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching unavailable visitor badges:', error);
+        res.status(500).json({ error: 'Error fetching unavailable visitor badges' });
+    }
+}
+
+async function getUnavailableEmployeeBadgescharguia(req, res) {
+    try {
+        const badges = await BadgeModel.find({ dispo: 0, type: 'employee' ,batiment: 'charguia'});
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching unavailable visitor badges:', error);
+        res.status(500).json({ error: 'Error fetching unavailable visitor badges' });
+    }
+}
+
+async function getUnavailableVisitorBadgessfax(req, res) {
+    try {
+        const badges = await BadgeModel.find({ dispo: 0, type: 'visiteur',batiment: 'sfax'});
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching unavailable visitor badges:', error);
+        res.status(500).json({ error: 'Error fetching unavailable visitor badges' });
+    }
+}
+
+async function getUnavailableEmployeeBadgessfax(req, res) {
+    try {
+        const badges = await BadgeModel.find({ dispo: 0, type: 'employee' ,batiment: 'sfax'});
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching unavailable visitor badges:', error);
+        res.status(500).json({ error: 'Error fetching unavailable visitor badges' });
+    }
+}
+
+module.exports = {
+    createBadge,
+    getAllBadges,
+     getBadgeById,
+     updateBadge,
+     deleteBadge,
+     getUnavailableVisitorBadges,
+     getUnavailableEmployeeBadges,
+     getUnavailableVisitorBadgeszenith1,
+     getUnavailableVisitorBadgeszenith2,
+     getUnavailableEmployeeBadgeszenith1,
+     getUnavailableEmployeeBadgeszenith2,
+     getUnavailableVisitorBadgescharguia,
+     getUnavailableEmployeeBadgescharguia,
+     getUnavailableVisitorBadgessfax,
+     getUnavailableEmployeeBadgessfax};
