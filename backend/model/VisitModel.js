@@ -9,7 +9,13 @@ const VisitSchema = new mongoose.Schema({
         type: Date,
 
 
+    },
+    vtype : {
+        type: String,
+
+
     }
+
 });
 
 module.exports = mongoose.model('visit', VisitSchema)
