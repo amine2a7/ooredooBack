@@ -14,6 +14,18 @@ const VisitSchema = new mongoose.Schema({
         type: String,
 
 
+    },
+    visitor: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Visitor'
+    },
+    employee: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Employee'
+    },
+    badge: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Badge'
     }
 
 });

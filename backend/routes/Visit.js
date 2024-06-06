@@ -13,6 +13,8 @@ router.put('/updateVisit/:id', VisitController.updateVisit);
 // Route pour supprimer un bulletin
 router.delete('/deleteVisit/:id',VisitController.deleteVisit);
 
+router.post('/addVisit', VisitController.addVisit);
+
 
 
 
