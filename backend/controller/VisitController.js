@@ -166,5 +166,4 @@ async function addVisit(req, res) {
 
 }
 
-module.exports = {createVisit,getAllVisits, getVisitById,updateVisit,deleteVisit,addVisit};
-module.exports = {createVisit,getAllVisits, getVisitById,updateVisit,deleteVisit,getAllVisitsArchive,getAllVisitsDaily};
+module.exports = {createVisit,getAllVisits, getVisitById,updateVisit,deleteVisit,getAllVisitsArchive,getAllVisitsDaily,addVisit};
