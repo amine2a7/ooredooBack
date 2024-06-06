@@ -1,4 +1,7 @@
 const VisitModel = require('../model/VisitModel');
+const VisitorModel = require('../model/VisitorModel');
+const Employee = require('../model/EmployeeModel');
+const Badge = require('../model/BadgeModel');
 
 async function createVisit(req,res){
     try{
@@ -97,5 +100,71 @@ async function getAllVisitsDaily(req, res) {
         res.status(500).json({ error: 'Error fetching Visits' });
     }
 }
+async function getAllVisitsArchive(req, res) {
+    try {
+        const Visits = await VisitModel.find({ vtype: 'desactive'});
+        res.status(200).json(Visits);
+    } catch (error) {
+        console.error('Error fetching Visits:', error);
+        res.status(500).json({ error: 'Error fetching Visits' });
+    }
+}
+async function getAllVisitsDaily(req, res) {
+    const today = new Date();
+    // Définir la date de début d'aujourd'hui à 00:00:00
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    // Définir la date de fin d'aujourd'hui à 23:59:59
+    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+    try {
+        const Visits = await VisitModel.find({ vtype: 'active' ,
+  
+         checkin: {
+            $gte: startOfDay,
+            $lte: endOfDay
+        } 
+    
+    });
+        res.status(200).json(Visits);
+    } catch (error) {
+        console.error('Error fetching Visits:', error);
+        res.status(500).json({ error: 'Error fetching Visits' });
+    }
+}
 
+async function addVisit(req, res) {
+    try {
+        const { nom, prenom, tel, cin, employee, badge } = req.body;
+
+        // Create a new visitor
+        const newVisitor = new VisitorModel({ nom, prenom, tel, cin });
+        await newVisitor.save();
+        console.log("employee",employee);
+        console.log("badge",badge);
+
+        // Create a new visit
+        const newVisit = new VisitModel({
+            visitor: newVisitor._id,
+            employee: employee,
+            badge:badge,
+            checkin: new Date(), // Current date and time
+            vtype: "visiteur"
+        });
+
+        await newVisit.save();
+
+        res.status(201).json({
+            message: 'New visit added successfully',
+            visit: newVisit
+        });
+    } catch (error) {
+        console.error('Error adding new visit:', error);
+        res.status(500).json({
+            message: 'Error adding new visit',
+            error: error.message
+        });
+    }
+
+}
+
+module.exports = {createVisit,getAllVisits, getVisitById,updateVisit,deleteVisit,addVisit};
 module.exports = {createVisit,getAllVisits, getVisitById,updateVisit,deleteVisit,getAllVisitsArchive,getAllVisitsDaily};
