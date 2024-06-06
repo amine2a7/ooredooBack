@@ -21,6 +21,8 @@ async function getAllVisits(req, res) {
     }
 }
 
+
+
 async function getVisitById(req, res) {
     const VisitId = req.params.id;
     try {
@@ -65,5 +67,35 @@ async function deleteVisit(req, res) {
         res.status(500).json({ error: 'Error deleting Visit' });
     }
 }
+async function getAllVisitsArchive(req, res) {
+    try {
+        const Visits = await VisitModel.find({ vtype: 'desactive'});
+        res.status(200).json(Visits);
+    } catch (error) {
+        console.error('Error fetching Visits:', error);
+        res.status(500).json({ error: 'Error fetching Visits' });
+    }
+}
+async function getAllVisitsDaily(req, res) {
+    const today = new Date();
+    // Définir la date de début d'aujourd'hui à 00:00:00
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    // Définir la date de fin d'aujourd'hui à 23:59:59
+    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+    try {
+        const Visits = await VisitModel.find({ vtype: 'active' ,
+  
+         checkin: {
+            $gte: startOfDay,
+            $lte: endOfDay
+        } 
+    
+    });
+        res.status(200).json(Visits);
+    } catch (error) {
+        console.error('Error fetching Visits:', error);
+        res.status(500).json({ error: 'Error fetching Visits' });
+    }
+}
 
-module.exports = {createVisit,getAllVisits, getVisitById,updateVisit,deleteVisit};
+module.exports = {createVisit,getAllVisits, getVisitById,updateVisit,deleteVisit,getAllVisitsArchive,getAllVisitsDaily};
