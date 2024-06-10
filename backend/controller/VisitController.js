@@ -102,7 +102,7 @@ async function getAllVisitsDaily(req, res) {
 }
 async function getAllVisitsArchive(req, res) {
     try {
-        const Visits = await VisitModel.find({ vtype: 'desactive'});
+        const Visits = await VisitModel.find({ vtype: 'active'});
         res.status(200).json(Visits);
     } catch (error) {
         console.error('Error fetching Visits:', error);
@@ -118,7 +118,7 @@ async function getAllVisitsDaily(req, res) {
     try {
         const Visits = await VisitModel.find({ vtype: 'active' ,
   
-         checkin: {
+        checkin: {
             $gte: startOfDay,
             $lte: endOfDay
         } 
