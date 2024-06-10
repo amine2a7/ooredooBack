@@ -118,7 +118,7 @@ async function getAllVisitsDaily(req, res) {
     try {
         const Visits = await VisitModel.find({ vtype: 'active' ,
   
-         checkin: {
+        checkin: {
             $gte: startOfDay,
             $lte: endOfDay
         } 
