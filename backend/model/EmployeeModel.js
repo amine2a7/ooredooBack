@@ -19,7 +19,7 @@ const EmployeeSchema = new mongoose.Schema({
         type: String,
         required : [true, "Please provide a tel"],
         unique: false,
-    },
+    },  
     direction: { type: String},
     
 });
