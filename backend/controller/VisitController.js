@@ -86,7 +86,7 @@ async function getAllVisitsDaily(req, res) {
     // Définir la date de fin d'aujourd'hui à 23:59:59
     const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
     try {
-        const Visits = await VisitModel.find({ vtype: 'active' ,
+        const Visits = await VisitModel.find({ 
   
          checkin: {
             $gte: startOfDay,
@@ -147,7 +147,7 @@ async function addVisit(req, res) {
             employee: employee,
             badge:badge,
             checkin: new Date(), // Current date and time
-            vtype: "visiteur"
+            vtype: "active"
         });
 
         await newVisit.save();
