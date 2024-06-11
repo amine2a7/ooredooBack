@@ -16,8 +16,7 @@ router.put('/updateVisit/:id', VisitController.updateVisit);
 router.delete('/deleteVisit/:id',VisitController.deleteVisit);
 
 router.post('/addVisit', VisitController.addVisit);
-
-
+router.post('/addBadgeE', VisitController.addBadgeE);
 
 
 module.exports = router

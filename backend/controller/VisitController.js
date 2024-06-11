@@ -1,7 +1,7 @@
 const VisitModel = require('../model/VisitModel');
 const VisitorModel = require('../model/VisitorModel');
 const Employee = require('../model/EmployeeModel');
-const Badge = require('../model/BadgeModel');
+const BadgeModel = require('../model/BadgeModel');
 
 async function createVisit(req,res){
     try{
@@ -138,19 +138,22 @@ async function addVisit(req, res) {
         // Create a new visitor
         const newVisitor = new VisitorModel({ nom, prenom, tel, cin });
         await newVisitor.save();
-        console.log("employee",employee);
-        console.log("badge",badge);
+        console.log("employee", employee);
+        console.log("badge", badge);
 
         // Create a new visit
         const newVisit = new VisitModel({
             visitor: newVisitor._id,
             employee: employee,
-            badge:badge,
+            badge: badge,
             checkin: new Date(), // Current date and time
-            vtype: "visiteur"
+            vtype: "active"
         });
 
         await newVisit.save();
+
+        // Update the badge's availability
+        await BadgeModel.findByIdAndUpdate(badge, { dispo: 1 });
 
         res.status(201).json({
             message: 'New visit added successfully',
@@ -163,7 +166,37 @@ async function addVisit(req, res) {
             error: error.message
         });
     }
-
 }
 
-module.exports = {createVisit,getAllVisits, getVisitById,updateVisit,deleteVisit,getAllVisitsArchive,getAllVisitsDaily,addVisit};
+async function addBadgeE(req, res) {
+    try {
+        const {  employee, badge } = req.body;
+
+        // Create a new visit
+        const newVisit = new VisitModel({
+            employee: employee,
+            badge: badge,
+            checkin: new Date(), // Current date and time
+            vtype: "active"
+        });
+
+        await newVisit.save();
+
+        // Update the badge's availability
+        await BadgeModel.findByIdAndUpdate(badge, { dispo: 1 });
+
+        res.status(201).json({
+            message: 'New visit added successfully',
+            visit: newVisit
+        });
+    } catch (error) {
+        console.error('Error adding new visit:', error);
+        res.status(500).json({
+            message: 'Error adding new visit',
+            error: error.message
+        });
+    }
+}
+
+
+module.exports = {createVisit,getAllVisits, getVisitById,updateVisit,deleteVisit,getAllVisitsArchive,getAllVisitsDaily,addVisit,addBadgeE};
