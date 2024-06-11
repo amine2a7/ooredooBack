@@ -70,6 +70,34 @@ async function deleteVisit(req, res) {
         res.status(500).json({ error: 'Error deleting Visit' });
     }
 }
+
+
+async function getAllVisitsDaily(req, res) {
+    const today = new Date();
+    // Définir la date de début d'aujourd'hui à 00:00:00
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    // Définir la date de fin d'aujourd'hui à 23:59:59
+    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+    try {
+        const Visits = await VisitModel.find({
+            $or: [
+                {
+                    checkin: {
+                        $gte: startOfDay,
+                        $lte: endOfDay
+                    }
+                },
+                {
+                    vtype: 'active'
+                }
+            ]
+        });
+        res.status(200).json(Visits);
+    } catch (error) {
+        console.error('Error fetching Visits:', error);
+        res.status(500).json({ error: 'Error fetching Visits' });
+    }
+}
 async function getAllVisitsArchive(req, res) {
     try {
         const Visits = await VisitModel.find({ vtype: 'desactive'});
@@ -78,58 +106,10 @@ async function getAllVisitsArchive(req, res) {
         console.error('Error fetching Visits:', error);
         res.status(500).json({ error: 'Error fetching Visits' });
     }
-}
-async function getAllVisitsDaily(req, res) {
-    const today = new Date();
-    // Définir la date de début d'aujourd'hui à 00:00:00
-    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    // Définir la date de fin d'aujourd'hui à 23:59:59
-    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
-    try {
-        const Visits = await VisitModel.find({ 
-  
-         checkin: {
-            $gte: startOfDay,
-            $lte: endOfDay
-        } 
     
-    });
-        res.status(200).json(Visits);
-    } catch (error) {
-        console.error('Error fetching Visits:', error);
-        res.status(500).json({ error: 'Error fetching Visits' });
-    }
+   
 }
-async function getAllVisitsArchive(req, res) {
-    try {
-        const Visits = await VisitModel.find({ vtype: 'active'});
-        res.status(200).json(Visits);
-    } catch (error) {
-        console.error('Error fetching Visits:', error);
-        res.status(500).json({ error: 'Error fetching Visits' });
-    }
-}
-async function getAllVisitsDaily(req, res) {
-    const today = new Date();
-    // Définir la date de début d'aujourd'hui à 00:00:00
-    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    // Définir la date de fin d'aujourd'hui à 23:59:59
-    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
-    try {
-        const Visits = await VisitModel.find({ vtype: 'active' ,
-  
-        checkin: {
-            $gte: startOfDay,
-            $lte: endOfDay
-        } 
-    
-    });
-        res.status(200).json(Visits);
-    } catch (error) {
-        console.error('Error fetching Visits:', error);
-        res.status(500).json({ error: 'Error fetching Visits' });
-    }
-}
+
 
 async function addVisit(req, res) {
     try {
