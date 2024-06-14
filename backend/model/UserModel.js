@@ -21,6 +21,7 @@ const UserSchema = new mongoose.Schema({
         required : [true, "Please provide a unique email"],
         unique: true,
     },
+    profilpicture: { type: String},
     firstName: { type: String},
     lastName: { type: String},
     role: { type: String},

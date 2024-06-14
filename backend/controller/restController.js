@@ -301,9 +301,9 @@ async function registerAdmin(req, res) {
   }
   
 
-  async function registerStudent(req, res) {
+  async function registerHotesse(req, res) {
     try {
-      const { username, password, firstName, lastName, profilpicture, email ,birthdate,height,weight,role } = req.body;
+      const { username, password, firstName, lastName, profilpicture, email ,batiment,role } = req.body;
 
         // Vérifie si le nom d'utilisateur ou l'e-mail existe déjà
         const existingUsername = await UserModel.findOne({ username });
@@ -328,9 +328,7 @@ async function registerAdmin(req, res) {
             lastName,
             profilpicture: profilpicture || '',
             email,
-            birthdate,
-            height,
-            weight,
+            batiment,
             role
         });
 
@@ -345,90 +343,7 @@ async function registerAdmin(req, res) {
 
   
 
-//   async function registerStudent(req, res) {
-//     try {
-//         const { username, password, firstName, lastName, profile, email, mobile, address, birthdate, sexe, courses, role } = req.body;
 
-//         // Vérifie si le nom d'utilisateur ou l'e-mail existe déjà
-//         const existingUsername = await UserModel.findOne({ username });
-//         const existingEmail = await UserModel.findOne({ email });
-
-//         if (existingUsername) {
-//             throw new Error("Veuillez utiliser un nom d'utilisateur unique");
-//         }
-//         if (existingEmail) {
-//             throw new Error("Veuillez utiliser un e-mail unique");
-//         }
-
-//         // Hachez le mot de passe
-//         const hashedPassword = await bcrypt.hash(password, 10);
-
-//         // Créez un nouvel utilisateur avec les cours sélectionnés
-//         const user = new UserModel({
-//             username,
-//             password: hashedPassword,
-//             firstName,
-//             lastName,
-//             profile: profile || '',
-//             email,
-//             birthdate,
-//             address,
-//             mobile,
-//             sexe,
-//             role,
-//             courses: courses // Assignez la liste de cours choisis à l'utilisateur
-//         });
-
-//         // Enregistrez l'utilisateur
-//         await user.save();
-//         res.status(201).send({ msg: "Utilisateur enregistré avec succès" });
-//     } catch (error) {
-//         res.status(500).send({ error: error.message });
-//     }
-// }
-
-  
-  
-
-  /** POST: http://localhost:8080/api/register/teacher */
-
-  // async function registerTeacher(req, res) {
-  //   try {
-  //     const { username, password, firstName, lastName, profile, email, courseID } = req.body;
-  
-  //     // Vérifie si le nom d'utilisateur ou l'e-mail existe déjà
-  //     const existingUsername = await UserModel.findOne({ username });
-  //     const existingEmail = await UserModel.findOne({ email });
-  
-  //     if (existingUsername) {
-  //       throw new Error("Veuillez utiliser un nom d'utilisateur unique");
-  //     }
-  //     if (existingEmail) {
-  //       throw new Error("Veuillez utiliser un e-mail unique");
-  //     }
-  
-  //     // Hachez le mot de passe
-  //     const hashedPassword = await bcrypt.hash(password, 10);
-  
-  //     // Créez un nouvel utilisateur avec le cours sélectionné
-  //     const user = new UserModel({
-  //       username,
-  //       password: hashedPassword,
-  //       firstName,
-  //       lastName,
-  //       profile: profile || '',
-  //       email,
-  //       role: 'teacher',
-  //       course: courseID // Assignez le cours choisi à l'utilisateur
-  //     });
-  
-  //     // Enregistrez l'utilisateur
-  //     await user.save();
-  //     res.status(201).send({ msg: "Étudiant enregistré avec succès" });
-  //   } catch (error) {
-  //     res.status(500).send({ error: error.message });
-  //   }
-  // }
   
 /** POST: http://localhost:8080/api/login */
 
@@ -614,7 +529,7 @@ module.exports = {
     createResetSession,
     resetPassword,
     //registerTeacher,
-    registerStudent,
+    registerHotesse,
     registerAdmin,
     getUserByEmail,
     verifyUserByEmail,
