@@ -10,6 +10,8 @@ router.get('/getBadgeById/:id', BadgeController.getBadgeById);
 
 // Route pour mettre à jour un bulletin
 router.put('/updateBadge/:id', BadgeController.updateBadge);
+router.put('/updateBadgeDispo/:id/:id1', BadgeController.updateBadgeDispo);
+
 // Route pour supprimer un bulletin
 router.delete('/deleteBadge/:id',BadgeController.deleteBadge);
 router.get('/unavailable-visitors', BadgeController.getUnavailableVisitorBadges);

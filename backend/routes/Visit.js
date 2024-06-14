@@ -12,6 +12,8 @@ router.get('/getVisitById/:id', VisitController.getVisitById);
 
 // Route pour mettre à jour un bulletin
 router.put('/updateVisit/:id', VisitController.updateVisit);
+
+
 // Route pour supprimer un bulletin
 router.delete('/deleteVisit/:id',VisitController.deleteVisit);
 
