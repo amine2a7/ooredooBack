@@ -91,6 +91,7 @@ async function getAllVisitsDaily(req, res) {
                     vtype: 'active'
                 }
             ]
+            
         });
         res.status(200).json(Visits);
     } catch (error) {
