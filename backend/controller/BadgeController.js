@@ -1,4 +1,5 @@
 const BadgeModel = require('../model/BadgeModel');
+const VisitModel = require('../model/VisitModel');
 
 async function createBadge(req,res){
     try{
@@ -165,6 +166,26 @@ async function getUnavailableEmployeeBadgessfax(req, res) {
         res.status(500).json({ error: 'Error fetching unavailable visitor badges' });
     }
 }
+async function updateBadgeDispo(req, res) {
+    const { id } = req.params; // Récupérer l'ID du badge de la requête
+    const { id1 } = req.params;
+    try {
+      const updatedBadge = await BadgeModel.findByIdAndUpdate(id, { dispo: 0 });
+      console.log('Updated Badge:', updatedBadge); // Vérifiez le badge mis à jour
+
+      await VisitModel.findByIdAndUpdate(id1, { vtype: 'desactive' });
+
+      await VisitModel.findByIdAndUpdate(id1, { checkout: new Date() });
+      if (!updatedBadge) {
+        return res.status(404).json({ error: 'Badge not found' });
+      }
+      res.status(200).json(updatedBadge);
+    } catch (error) {
+      console.error('Error updating Badge:', error);
+      res.status(500).json({ error: 'Error updating Badge' });
+    }
+  }
+  
 
 module.exports = {
     createBadge,
@@ -181,4 +202,5 @@ module.exports = {
      getUnavailableVisitorBadgescharguia,
      getUnavailableEmployeeBadgescharguia,
      getUnavailableVisitorBadgessfax,
-     getUnavailableEmployeeBadgessfax};
+     getUnavailableEmployeeBadgessfax,
+     updateBadgeDispo};
