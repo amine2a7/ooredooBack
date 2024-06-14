@@ -90,8 +90,8 @@ async function getAllVisitsDaily(req, res) {
                 {
                     vtype: 'active'
                 }
-            ],
-            batiment :'sfax'
+            ]
+            
         });
         res.status(200).json(Visits);
     } catch (error) {
