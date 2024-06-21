@@ -104,21 +104,25 @@ async function registerMail(req, res, next) {
 
 
 const sendOTPEmail = async (req, res) => {
-  const { userEmail, username, otp } = req.body;
+  const { userEmail, username,firstName,lastName,password, otp } = req.body;
 
 
-  const emailBody =`Dear ${username},
+  const emailBody =`Bonjour ${username},
 
-    Your OTP (One-Time Password) for password recovery is: ${otp}. 
-    Please use this code to verify and recover your password.
+    Nous sommes ravis de vous accueillir en tant qu'hôtesse pour ooredoo.
+    Vous trouverez ci-dessous vos informations de connexion pour accéder à votre compte.
 
-    Best,
-    ElKindy`;
+    Nom d'utilisateur : ${firstName} ${lastName}
+    Mot de passe : ${password}
+    Code OTP : ${otp}
+
+    ooredoo,
+    cordialement`;
 
   const message = {
     from: ENV.EMAIL,
     to: userEmail,
-    subject: "Password Recovery OTP",
+    subject: "Informations de Connexion",
     text: emailBody
   };
 
