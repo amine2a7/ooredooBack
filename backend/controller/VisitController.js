@@ -43,7 +43,7 @@ async function getVisitById(req, res) {
 async function updateVisit(req, res) {
     const VisitId = req.params.id;
     const updateData = req.body;
-    console.log('Received update data:', updateData); // Vérifiez les données reçues du front-end
+    console.log('Received update data:', updateData); // Vérifiez les  reçues du front-end
     try {
       const updatedVisit = await VisitModel.findByIdAndUpdate(VisitId, updateData, { new: true });
       console.log('Updated Visit:', updatedVisit); // Vérifiez la Visit mise à jour
@@ -178,6 +178,176 @@ async function addBadgeE(req, res) {
         });
     }
 }
+////////////////////////////
+async function getAllVisitsDailyzenith1(req, res) {
+    const today = new Date();
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+    try {
+        const badges = await BadgeModel.find({ batiment: 'zenith1' });
 
+        // Extraire les IDs des badges pour lesquels nous voulons filtrer les visites
+        const badgeIds = badges.map(badge => badge._id);
 
-module.exports = {createVisit,getAllVisits, getVisitById,updateVisit,deleteVisit,getAllVisitsArchive,getAllVisitsDaily,addVisit,addBadgeE};
+        // Récupérer les visites qui correspondent aux critères de filtre
+        const Visits = await VisitModel.find({
+            $and: [
+                {
+                    $or: [
+                        {
+                            checkin: {
+                                $gte: startOfDay,
+                                $lte: endOfDay
+                            }
+                        },
+                        {
+                            vtype: 'active'
+                        }
+                    ]
+                },
+                {
+                    badge: { $in: badgeIds } // Filtrer par les IDs des badges du bâtiment 'charguia'
+                }
+            ]
+        });
+        res.status(200).json(Visits);
+    } catch (error) {
+        console.error('Error fetching Visits:', error);
+        res.status(500).json({ error: 'Error fetching Visits' });
+    }
+}
+async function getAllVisitsDailyzenith2(req, res) {
+    const today = new Date();
+    // Définir la date de début d'aujourd'hui à 00:00:00
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    // Définir la date de fin d'aujourd'hui à 23:59:59
+    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+    try {
+        // Récupérer les badges affectés au bâtiment 'charguia'
+        const badges = await BadgeModel.find({ batiment: 'zenith2' });
+
+        // Extraire les IDs des badges pour lesquels nous voulons filtrer les visites
+        const badgeIds = badges.map(badge => badge._id);
+
+        // Récupérer les visites qui correspondent aux critères de filtre
+        const Visits = await VisitModel.find({
+            $and: [
+                {
+                    $or: [
+                        {
+                            checkin: {
+                                $gte: startOfDay,
+                                $lte: endOfDay
+                            }
+                        },
+                        {
+                            vtype: 'active'
+                        }
+                    ]
+                },
+                {
+                    badge: { $in: badgeIds } // Filtrer par les IDs des badges du bâtiment 'charguia'
+                }
+            ]
+        });
+        res.status(200).json(Visits);
+    } catch (error) {
+        console.error('Error fetching Visits:', error);
+        res.status(500).json({ error: 'Error fetching Visits' });
+    }
+}
+async function getAllVisitsDailysfax(req, res) {
+    const today = new Date();
+    // Définir la date de début d'aujourd'hui à 00:00:00
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    // Définir la date de fin d'aujourd'hui à 23:59:59
+    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+    try {
+        // Récupérer les badges affectés au bâtiment 'charguia'
+        const badges = await BadgeModel.find({ batiment: 'sfax' });
+
+        // Extraire les IDs des badges pour lesquels nous voulons filtrer les visites
+        const badgeIds = badges.map(badge => badge._id);
+
+        // Récupérer les visites qui correspondent aux critères de filtre
+        const Visits = await VisitModel.find({
+            $and: [
+                {
+                    $or: [
+                        {
+                            checkin: {
+                                $gte: startOfDay,
+                                $lte: endOfDay
+                            }
+                        },
+                        {
+                            vtype: 'active'
+                        }
+                    ]
+                },
+                {
+                    badge: { $in: badgeIds } // Filtrer par les IDs des badges du bâtiment 'charguia'
+                }
+            ]
+        });
+        res.status(200).json(Visits);
+    } catch (error) {
+        console.error('Error fetching Visits:', error);
+        res.status(500).json({ error: 'Error fetching Visits' });
+    }
+}
+async function getAllVisitsDailycharguia(req, res) {
+    const today = new Date();
+    // Définir la date de début d'aujourd'hui à 00:00:00
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    // Définir la date de fin d'aujourd'hui à 23:59:59
+    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+    try {
+        // Récupérer les badges affectés au bâtiment 'charguia'
+        const badges = await BadgeModel.find({ batiment: 'charguia' });
+
+        // Extraire les IDs des badges pour lesquels nous voulons filtrer les visites
+        const badgeIds = badges.map(badge => badge._id);
+
+        // Récupérer les visites qui correspondent aux critères de filtre
+        const Visits = await VisitModel.find({
+            $and: [
+                {
+                    $or: [
+                        {
+                            checkin: {
+                                $gte: startOfDay,
+                                $lte: endOfDay
+                            }
+                        },
+                        {
+                            vtype: 'active'
+                        }
+                    ]
+                },
+                {
+                    badge: { $in: badgeIds } // Filtrer par les IDs des badges du bâtiment 'charguia'
+                }
+            ]
+        });
+        res.status(200).json(Visits);
+    } catch (error) {
+        console.error('Error fetching Visits:', error);
+        res.status(500).json({ error: 'Error fetching Visits' });
+    }
+}
+
+    
+////////////////
+
+module.exports = {createVisit,getAllVisits,
+     getVisitById,updateVisit,deleteVisit,
+     getAllVisitsArchive,getAllVisitsDaily,
+     addVisit,addBadgeE,
+     getAllVisitsDailyzenith1,
+    getAllVisitsDailyzenith2,
+    getAllVisitsDailysfax,
+    getAllVisitsDailycharguia
+    
+    
+    };
