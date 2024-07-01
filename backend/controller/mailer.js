@@ -109,15 +109,16 @@ const sendOTPEmail = async (req, res) => {
 
   const emailBody =`Bonjour ${username},
 
-    Nous sommes ravis de vous accueillir en tant qu'hôtesse pour ooredoo.
-    Vous trouverez ci-dessous vos informations de connexion pour accéder à votre compte.
+    Nous avons le plaisir de vous accueillir en tant qu'hôtesse chez Ooredoo. Vous trouverez ci-dessous vos informations de connexion pour accéder à votre compte.
 
     Nom d'utilisateur : ${firstName} ${lastName}
     Mot de passe : ${password}
     Code OTP : ${otp}
 
-    ooredoo,
-    cordialement`;
+    Veuillez utiliser ce code OTP pour changer votre mot de passe.
+
+    Cordialement,
+    Ooredoo`;
 
   const message = {
     from: ENV.EMAIL,
