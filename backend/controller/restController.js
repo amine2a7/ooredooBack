@@ -347,6 +347,28 @@ async function registerAdmin(req, res) {
   
 /** POST: http://localhost:8080/api/login */
 
+// Tableau pour stocker les utilisateurs connectés en mémoire
+let connectedUsers = [];
+
+// Fonction pour récupérer les utilisateurs connectés
+async function getConnectedUsers() {
+  return connectedUsers.map(user => ({
+    userId: user.userId,
+    username: user.username
+  }));
+}
+
+// Fonction pour ajouter un utilisateur à la liste des connectés
+function addUserToConnectedList(userId, username) {
+  connectedUsers.push({ userId, username });
+}
+
+// Fonction pour retirer un utilisateur de la liste des connectés
+function removeUserFromConnectedList(userId) {
+  connectedUsers = connectedUsers.filter(user => user.userId !== userId);
+}
+
+// Fonction de login
 async function login(req, res) {
   const { username, password } = req.body;
 
@@ -376,6 +398,9 @@ async function login(req, res) {
       { expiresIn: "24h" }
     );
 
+    // Ajouter l'utilisateur à la liste des connectés
+    addUserToConnectedList(user._id, user.username);
+
     return res.status(200).send({
       msg: "Login successful!",
       username: user.username,
@@ -386,6 +411,20 @@ async function login(req, res) {
     return res.status(500).send({ error });
   }
 }
+
+// Fonction pour gérer les utilisateurs connectés
+async function connecteUsers(req, res) {
+  try {
+    const connectedUsers = await getConnectedUsers();
+
+    return res.status(200).send({
+      connectedUsers
+    });
+  } catch (error) {
+    return res.status(500).send({ error: "Failed to fetch connected users" });
+  }
+}
+
 
 
 
@@ -519,6 +558,7 @@ module.exports = {
     getall,
     updatebyid,
     deleteuser,
+    connecteUsers,
     //register,
     login,
     getUser,
