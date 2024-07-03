@@ -1,5 +1,6 @@
 const EmployeeModel = require('../model/EmployeeModel');
-
+const ExcelJS = require('exceljs');
+const fs = require('fs');
 async function createEmployee(req,res){
     try{
     console.log('data',req.body);
@@ -66,4 +67,49 @@ async function deleteEmployee(req, res) {
     }
 }
 
-module.exports = {createEmployee,getAllEmployees, getEmployeeById,updateEmployee,deleteEmployee};
+
+
+async function regenereEmployee(req, res) {
+    const file = req.file;
+    if (!file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    try {
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.readFile(file.path);
+        const worksheet = workbook.getWorksheet(1);
+
+        const newEmployees = [];
+
+        worksheet.eachRow((row, rowNumber) => {
+            const employee = {
+                matricule: row.getCell(1).value,
+                nom: row.getCell(2).value,
+               prenom : row.getCell(3).value,
+                tel : row.getCell(5).value,
+                direction : row.getCell(4).value,
+                // Ajouter d'autres champs si nécessaire
+            };
+
+            const { matricule, nom  , prenom ,tel ,direction } = employee;
+            newEmployees.push({ matricule, nom ,  prenom ,tel , direction });
+        });
+
+        await EmployeeModel.deleteMany({});
+        await EmployeeModel.insertMany(newEmployees);
+
+        // Supprimer le fichier après traitement
+        fs.unlinkSync(file.path);
+
+        res.status(200).json({ message: 'Employees regenerated successfully', newEmployees });
+    } catch (error) {
+        console.error('Error regenerating employees:', error);
+        res.status(500).json({ error: 'Error regenerating employees' });
+    }
+}
+
+///////////
+
+/////////////
+module.exports = {createEmployee,getAllEmployees, getEmployeeById,updateEmployee,deleteEmployee,regenereEmployee};
