@@ -83,6 +83,8 @@ async function regenereEmployee(req, res) {
         const newEmployees = [];
 
         worksheet.eachRow((row, rowNumber) => {
+            if (rowNumber === 1) return;
+
             const employee = {
                 matricule: row.getCell(1).value,
                 nom: row.getCell(2).value,
