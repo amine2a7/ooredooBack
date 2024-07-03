@@ -6,6 +6,8 @@ const jwt =  require ('jsonwebtoken');
 const ENV = require  ('../config.js');
 const otpGenerator = require  ('otp-generator');
 const sendAccountDetailsEmail = require('./mailer.js');
+const ConnectedUser = require('../model/ConnectedUser.js');
+
 
 /** middlware for verify user */
  async function verifyUser(req, res, next) {
@@ -41,7 +43,7 @@ async function verifyUserByEmail(req, res, next) {
 //Get 
 //@Route  Get /path/path
 //@Desc
-
+  
 
 
 /** GET: http://localhost:8080/api/user/example123 */
@@ -347,25 +349,24 @@ async function registerAdmin(req, res) {
   
 /** POST: http://localhost:8080/api/login */
 
-// Tableau pour stocker les utilisateurs connectés en mémoire
-let connectedUsers = [];
 
-// Fonction pour récupérer les utilisateurs connectés
+// Fonction pour récupérer les utilisateurs connectés depuis la base de données
 async function getConnectedUsers() {
-  return connectedUsers.map(user => ({
-    userId: user.userId,
-    username: user.username
-  }));
+  return await ConnectedUser.find().select('userId username');
 }
 
-// Fonction pour ajouter un utilisateur à la liste des connectés
-function addUserToConnectedList(userId, username) {
-  connectedUsers.push({ userId, username });
+// Fonction pour ajouter un utilisateur à la liste des connectés dans la base de données
+async function addUserToConnectedList(userId, username) {
+  const connectedUser = new ConnectedUser({
+    userId,
+    username
+  });
+  await connectedUser.save();
 }
 
-// Fonction pour retirer un utilisateur de la liste des connectés
-function removeUserFromConnectedList(userId) {
-  connectedUsers = connectedUsers.filter(user => user.userId !== userId);
+// Fonction pour retirer un utilisateur de la liste des connectés dans la base de données
+async function removeUserFromConnectedList(userId) {
+  await ConnectedUser.deleteOne({ userId });
 }
 
 // Fonction de login
@@ -399,7 +400,7 @@ async function login(req, res) {
     );
 
     // Ajouter l'utilisateur à la liste des connectés
-    addUserToConnectedList(user._id, user.username);
+    await addUserToConnectedList(user._id, user.username);
 
     return res.status(200).send({
       msg: "Login successful!",
@@ -409,6 +410,32 @@ async function login(req, res) {
     });
   } catch (error) {
     return res.status(500).send({ error });
+  }
+}
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, ENV.JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user; // Stocke les informations de l'utilisateur dans req.user
+    next();
+  });
+};
+// Exemple de contrôleur de déconnexion (logout)
+async function logout(req, res) {
+  try {
+    const userId = req.user.userId; // Assurez-vous que req.user est défini par le middleware
+    console.log("user",userId);
+
+    await removeUserFromConnectedList(userId);
+
+    res.status(200).json({ message: 'Logout successful' });
+  } catch (error) {
+    console.error('Error logging out user:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 }
 
@@ -555,6 +582,8 @@ module.exports = {
   
     verifyUser,
     add,
+    logout,
+    authenticateToken,
     getall,
     updatebyid,
     deleteuser,

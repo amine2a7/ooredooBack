@@ -28,6 +28,8 @@ router.route('/PayementEmail').post(PayementEmail);//send the email
 router.route('/sendOTP').post(sendOTPEmail);//send the email
 router.route('/authenticate').post(controller.verifyUser,(req,res) => res.end());//authenticate user
 router.route('/login').post(controller.verifyUser,controller.login);//login in app
+
+router.route('/logout').post(controller.authenticateToken,controller.logout);
 router.route('/admin/connected-users').get(controller.connecteUsers);
 
 
