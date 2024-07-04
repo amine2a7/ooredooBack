@@ -10,6 +10,7 @@ const badge = require('./routes/Badge.js');
 const employee = require('./routes/Employee.js');
 const Visit = require('./routes/Visit.js');
 const Visitor = require('./routes/Visitor.js');
+const Rdv = require('./routes/Rdv.js');
 
 
 
@@ -40,6 +41,7 @@ app.use('/badge',badge);
 app.use('/employee',employee);
 app.use('/visit',Visit);
 app.use('/visitor',Visitor);
+app.use('/rdv',Rdv);
 
 
 app.use(express.json({ limit: '50mb' }));
