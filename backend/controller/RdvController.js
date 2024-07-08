@@ -3,7 +3,11 @@ const RdvModel = require('../model/RdvModel');
 async function createRdv(req,res){
     try{
     console.log('data',req.body);
-    const Rdv=new RdvModel(req.body)
+    const rdvData = {
+        ...req.body,
+        statut: 'en attente'
+      };
+    const Rdv=new RdvModel(rdvData)
    await Rdv.save();
    res.status(201).json(Rdv);
     }catch(err){
@@ -51,6 +55,7 @@ async function updateRdv(req, res) {
       res.status(500).json({ error: 'Error updating Rdv' });
     }
   }
+  
 
 async function deleteRdv(req, res) {
     const RdvId = req.params.id;

@@ -36,8 +36,7 @@ const RdvSchema = new mongoose.Schema({
         
     },
     statut : {
-type:String,
-
+    type:String,
     }
 
 });
