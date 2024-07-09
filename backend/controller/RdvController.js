@@ -24,6 +24,16 @@ async function getAllRdvs(req, res) {
         res.status(500).json({ error: 'Error fetching Rdvs' });
     }
 }
+async function getAllRdvsByTel(req, res) {
+    const tel = req.params.tel; // Assuming 'tel' is passed as a parameter in the request
+    try {
+        const Rdvs = await RdvModel.find({ tel: tel });
+        res.status(200).json(Rdvs);
+    } catch (error) {
+        console.error('Error fetching Rdvs by tel:', error);
+        res.status(500).json({ error: 'Error fetching Rdvs by tel' });
+    }
+}
 
 async function getRdvById(req, res) {
     const RdvId = req.params.id;
@@ -71,4 +81,4 @@ async function deleteRdv(req, res) {
     }
 }
 
-module.exports = {createRdv,getAllRdvs, getRdvById,updateRdv,deleteRdv};
+module.exports = {createRdv,getAllRdvs, getRdvById,updateRdv,deleteRdv,getAllRdvsByTel};

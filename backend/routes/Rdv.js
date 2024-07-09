@@ -7,6 +7,9 @@ router.get('/getAllRdvs', RdvController.getAllRdvs);
 
 // Route pour récupérer un bulletin par son ID
 router.get('/getRdvById/:id', RdvController.getRdvById);
+router.get('/getAllRdvsByTel/:id', RdvController.getAllRdvsByTel);
+
+
 
 // Route pour mettre à jour un bulletin
 router.put('/updateRdv/:id', RdvController.updateRdv);
