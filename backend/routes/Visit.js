@@ -10,7 +10,8 @@ router.get('/getAllVisitsArchive', VisitController.getAllVisitsArchive);
 router.get('/getAllVisitsDailyzenith1', VisitController.getAllVisitsDailyzenith1);
 router.get('/getAllVisitsDailyzenith2', VisitController.getAllVisitsDailyzenith2);
 router.get('/getAllVisitsDailysfax', VisitController.getAllVisitsDailysfax);
-router.get('/getAllVisitsDailycharguia', VisitController.getAllVisitsDailycharguia);
+router.get('/getAllVisitsDailycharguiadt', VisitController.getAllVisitsDailycharguiadt);
+router.get('/getAllVisitsDailycharguiadsc', VisitController.getAllVisitsDailycharguiadsc);
 // Route pour récupérer un bulletin par son ID
 router.get('/getVisitById/:id', VisitController.getVisitById);
 

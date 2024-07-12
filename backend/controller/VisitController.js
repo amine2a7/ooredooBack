@@ -296,7 +296,7 @@ async function getAllVisitsDailysfax(req, res) {
         res.status(500).json({ error: 'Error fetching Visits' });
     }
 }
-async function getAllVisitsDailycharguia(req, res) {
+async function getAllVisitsDailycharguiadt(req, res) {
     const today = new Date();
     // Définir la date de début d'aujourd'hui à 00:00:00
     const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -304,7 +304,7 @@ async function getAllVisitsDailycharguia(req, res) {
     const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
     try {
         // Récupérer les badges affectés au bâtiment 'charguia'
-        const badges = await BadgeModel.find({ batiment: 'charguia' });
+        const badges = await BadgeModel.find({ batiment: 'charguiadt' });
 
         // Extraire les IDs des badges pour lesquels nous voulons filtrer les visites
         const badgeIds = badges.map(badge => badge._id);
@@ -337,6 +337,48 @@ async function getAllVisitsDailycharguia(req, res) {
     }
 }
 
+
+
+async function getAllVisitsDailycharguiadsc(req, res) {
+    const today = new Date();
+    // Définir la date de début d'aujourd'hui à 00:00:00
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    // Définir la date de fin d'aujourd'hui à 23:59:59
+    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+    try {
+        // Récupérer les badges affectés au bâtiment 'charguia'
+        const badges = await BadgeModel.find({ batiment: 'charguiadsc' });
+
+        // Extraire les IDs des badges pour lesquels nous voulons filtrer les visites
+        const badgeIds = badges.map(badge => badge._id);
+
+        // Récupérer les visites qui correspondent aux critères de filtre
+        const Visits = await VisitModel.find({
+            $and: [
+                {
+                    $or: [
+                        {
+                            checkin: {
+                                $gte: startOfDay,
+                                $lte: endOfDay
+                            }
+                        },
+                        {
+                            vtype: 'active'
+                        }
+                    ]
+                },
+                {
+                    badge: { $in: badgeIds } // Filtrer par les IDs des badges du bâtiment 'charguia'
+                }
+            ]
+        });
+        res.status(200).json(Visits);
+    } catch (error) {
+        console.error('Error fetching Visits:', error);
+        res.status(500).json({ error: 'Error fetching Visits' });
+    }
+}
     
 ////////////////
 
@@ -347,7 +389,8 @@ module.exports = {createVisit,getAllVisits,
      getAllVisitsDailyzenith1,
     getAllVisitsDailyzenith2,
     getAllVisitsDailysfax,
-    getAllVisitsDailycharguia
+    getAllVisitsDailycharguiadt,
+    getAllVisitsDailycharguiadsc
     
     
     };

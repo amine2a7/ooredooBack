@@ -20,8 +20,10 @@ router.get('/unavailable-visitorsZ1', BadgeController.getUnavailableVisitorBadge
 router.get('/unavailable-employeeZ1', BadgeController.getUnavailableEmployeeBadgeszenith1);
 router.get('/unavailable-visitorsZ2', BadgeController.getUnavailableVisitorBadgeszenith2);
 router.get('/unavailable-employeeZ2', BadgeController.getUnavailableEmployeeBadgeszenith2);
-router.get('/unavailable-visitorscharguia', BadgeController.getUnavailableVisitorBadgescharguia);
-router.get('/unavailable-employeecharguia', BadgeController.getUnavailableEmployeeBadgescharguia);
+router.get('/unavailable-visitorscharguiadt', BadgeController.getUnavailableVisitorBadgescharguiadt);
+router.get('/unavailable-employeecharguiadt', BadgeController.getUnavailableEmployeeBadgescharguiadt);
+router.get('/unavailable-visitorscharguiadsc', BadgeController.getUnavailableVisitorBadgescharguiadsc);
+router.get('/unavailable-employeecharguiadsc', BadgeController.getUnavailableEmployeeBadgescharguiadsc);
 router.get('/unavailable-visitorssfax', BadgeController.getUnavailableVisitorBadgessfax);
 router.get('/unavailable-employeesfax', BadgeController.getUnavailableEmployeeBadgessfax);
 

@@ -127,9 +127,9 @@ async function getUnavailableEmployeeBadgeszenith2(req, res) {
     }
 }
 
-async function getUnavailableVisitorBadgescharguia(req, res) {
+async function getUnavailableVisitorBadgescharguiadt(req, res) {
     try {
-        const badges = await BadgeModel.find({ dispo: 0, type: 'visiteur',batiment: 'charguia'});
+        const badges = await BadgeModel.find({ dispo: 0, type: 'visiteur',batiment: 'charguiadt'});
         res.status(200).json(badges);
     } catch (error) {
         console.error('Error fetching unavailable visitor badges:', error);
@@ -137,9 +137,19 @@ async function getUnavailableVisitorBadgescharguia(req, res) {
     }
 }
 
-async function getUnavailableEmployeeBadgescharguia(req, res) {
+async function getUnavailableEmployeeBadgescharguiadt(req, res) {
     try {
-        const badges = await BadgeModel.find({ dispo: 0, type: 'employee' ,batiment: 'charguia'});
+        const badges = await BadgeModel.find({ dispo: 0, type: 'employee' ,batiment: 'charguiadt'});
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching unavailable visitor badges:', error);
+        res.status(500).json({ error: 'Error fetching unavailable visitor badges' });
+    }
+}
+//-----
+async function getUnavailableVisitorBadgescharguiadsc(req, res) {
+    try {
+        const badges = await BadgeModel.find({ dispo: 0, type: 'visiteur',batiment: 'charguiadsc'});
         res.status(200).json(badges);
     } catch (error) {
         console.error('Error fetching unavailable visitor badges:', error);
@@ -147,6 +157,15 @@ async function getUnavailableEmployeeBadgescharguia(req, res) {
     }
 }
 
+async function getUnavailableEmployeeBadgescharguiadsc(req, res) {
+    try {
+        const badges = await BadgeModel.find({ dispo: 0, type: 'employee' ,batiment: 'charguiadsc'});
+        res.status(200).json(badges);
+    } catch (error) {
+        console.error('Error fetching unavailable visitor badges:', error);
+        res.status(500).json({ error: 'Error fetching unavailable visitor badges' });
+    }
+}
 async function getUnavailableVisitorBadgessfax(req, res) {
     try {
         const badges = await BadgeModel.find({ dispo: 0, type: 'visiteur',batiment: 'sfax'});
@@ -199,8 +218,10 @@ module.exports = {
      getUnavailableVisitorBadgeszenith2,
      getUnavailableEmployeeBadgeszenith1,
      getUnavailableEmployeeBadgeszenith2,
-     getUnavailableVisitorBadgescharguia,
-     getUnavailableEmployeeBadgescharguia,
+     getUnavailableVisitorBadgescharguiadt,
+     getUnavailableEmployeeBadgescharguiadt,
+     getUnavailableVisitorBadgescharguiadsc,
+     getUnavailableEmployeeBadgescharguiadsc,
      getUnavailableVisitorBadgessfax,
      getUnavailableEmployeeBadgessfax,
      updateBadgeDispo};
